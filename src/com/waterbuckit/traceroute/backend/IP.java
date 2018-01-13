@@ -5,28 +5,41 @@
  */
 package com.waterbuckit.traceroute.backend;
 
+import java.io.File;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import org.apache.commons.net.util.SubnetUtils;
 
 /**
  *
  * @author waterbucket
  */
 public class IP {
-    
+
     public final static Pattern IP_REGEX = Pattern.compile("^(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)$");
     private char one;
     private char two;
     private char three;
     private char four;
-    
+    private String ip;
+
+    public IP(String ip) {
+        this.ip = ip;
+    }
+
     private IP(char one, char two, char three, char four) {
         this.one = one;
         this.two = two;
         this.three = three;
         this.four = four;
     }
-    
+
+    public String getIp() {
+        return this.ip;
+    }
+
     public char getOne() {
         return one;
     }
@@ -42,34 +55,58 @@ public class IP {
     public char getFour() {
         return four;
     }
+
     /**
      * Guard method
-     * 
+     *
      * Parses IP addresses to make sure they follow the pattern defined by
-     * IP_REGEX. Creates a valid IP object.
-     * Throws an exception if invalid.
-     * 
+     * IP_REGEX. Creates a valid IP object. Throws an exception if invalid.
+     *
      * @param ip
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
-    public static IP parse(String ip) throws Exception{
+    public static IP parse(String ip) throws Exception {
         char one, two, three, four;
         Matcher match = IP_REGEX.matcher(ip);
-        if(match.matches()){
-            one = (char) Integer.parseInt(match.group());
-            two = (char) Integer.parseInt(match.group());
-            three = (char) Integer.parseInt(match.group());
-            four = (char) Integer.parseInt(match.group());
-            
+        if (match.matches()) {
+            one = (char) Integer.parseInt(match.group(1));
+            two = (char) Integer.parseInt(match.group(2));
+            three = (char) Integer.parseInt(match.group(3));
+            four = (char) Integer.parseInt(match.group(4));
+
             return new IP(one, two, three, four);
-        }else{
+        } else {
             throw new Exception("Could not parse " + ip);
         }
     }
 
     @Override
     public String toString() {
-        return String.format("IP(%d.%d.%d.%d)", one,two,three,four);
+//        return String.format("IP(%d.%d.%d.%d)", (int)one,(int)two,(int)three,(int)four);
+        return String.format("IP(%s)", this.ip);
     }
+
+    public static Geoloc getGeo(String pIp) throws Exception {
+        CSVParser parser = new CSVParser(new File("IPs.csv"));
+        Map<IP, Geoloc> geolocs = parser
+                .getGeolocs()
+                .stream()
+                .collect(Collectors.toMap(Geoloc::getIp, s -> s));
+        System.out.println("Geolocs loaded");
+        for (IP cidr : geolocs.keySet()) {
+            SubnetUtils utils = new SubnetUtils(cidr.getIp());
+            if (utils.getInfo().isInRange(pIp)) {
+                return geolocs.get(cidr);
+            }
+        }
+        return null;
+    }
+
+    public boolean equals(IP ip) {
+        return (this.getOne() == ip.getOne() && this.getTwo() == ip.getTwo()
+                && this.getThree() == ip.getThree()
+                && this.getFour() == ip.getFour());
+    }
+
 }
