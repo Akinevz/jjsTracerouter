@@ -1,0 +1,17 @@
+{
+  "name": "hackaway",
+  "version": "1.0.0",
+  "description": "A front end to display geolocations of traceroute",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "traceroute",
+    "frontend",
+    "display",
+    "coordinates"
+  ],
+  "author": "Akinevz",
+  "license": "ISC"
+}
