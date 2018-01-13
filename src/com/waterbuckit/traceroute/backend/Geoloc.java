@@ -32,5 +32,9 @@ public class Geoloc {
     public int getRadius() {
         return radius;
     }
-    
+
+    @Override
+    public String toString() {
+        return String.format("Geoloc(%s, %s, radius:%d)\n", ip.toString(),position.toString(),radius);
+    }
 }

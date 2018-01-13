@@ -67,5 +67,9 @@ public class IP {
             throw new Exception("Could not parse " + ip);
         }
     }
-    
+
+    @Override
+    public String toString() {
+        return String.format("IP(%d.%d.%d.%d)", one,two,three,four);
+    }
 }

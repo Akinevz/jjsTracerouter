@@ -25,4 +25,9 @@ public class Position {
     public double getLat() {
         return lat;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Position(%f,%f)", lon,lat);
+    }
 }
