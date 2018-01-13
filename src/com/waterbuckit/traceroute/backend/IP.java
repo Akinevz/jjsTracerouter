@@ -5,6 +5,7 @@
  */
 package com.waterbuckit.traceroute.backend;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -13,19 +14,19 @@ import java.util.regex.Pattern;
  */
 public class IP {
     
-    public final static Pattern IPRegex = Pattern.compile("\\d");
+    public final static Pattern IP_REGEX = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)");
     private char one;
     private char two;
     private char three;
     private char four;
     
-    public IP(char one, char two, char three, char four) {
+    private IP(char one, char two, char three, char four) {
         this.one = one;
         this.two = two;
         this.three = three;
         this.four = four;
     }
-
+    
     public char getOne() {
         return one;
     }
@@ -41,13 +42,30 @@ public class IP {
     public char getFour() {
         return four;
     }
-    
+    /**
+     * Guard method
+     * 
+     * Parses IP addresses to make sure they follow the pattern defined by
+     * IP_REGEX. Creates a valid IP object.
+     * Throws an exception if invalid.
+     * 
+     * @param ip
+     * @return
+     * @throws Exception 
+     */
     public static IP parse(String ip) throws Exception{
         char one, two, three, four;
-        if(Pattern.matches(ip, ip)){
+        Matcher match = IP_REGEX.matcher(ip);
+        if(match.matches()){
+            one = (char) Integer.parseInt(match.group());
+            two = (char) Integer.parseInt(match.group());
+            three = (char) Integer.parseInt(match.group());
+            four = (char) Integer.parseInt(match.group());
             
+            return new IP(one, two, three, four);
+        }else{
+            throw new Exception("Could not parse " + ip);
         }
-        return new IP(one, two, three, four);
     }
     
 }

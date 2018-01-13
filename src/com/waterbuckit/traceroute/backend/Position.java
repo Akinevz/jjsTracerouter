@@ -10,5 +10,19 @@ package com.waterbuckit.traceroute.backend;
  * @author waterbucket
  */
 public class Position {
-    private long
+    private final double lon;
+    private final double lat;
+
+    public Position(double lon, double lat) {
+        this.lon = lon;
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public double getLat() {
+        return lat;
+    }
 }

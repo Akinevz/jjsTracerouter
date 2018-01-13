@@ -12,10 +12,10 @@ package com.waterbuckit.traceroute.backend;
 public class Geoloc {
     
     private final IP ip;
-    private final Location position;
+    private final Position position;
     private final int radius;
 
-    public Geoloc(IP ip, Location position, int radius) {
+    public Geoloc(IP ip, Position position, int radius) {
         this.ip = ip;
         this.position = position;
         this.radius = radius;
@@ -25,7 +25,7 @@ public class Geoloc {
         return ip;
     }
 
-    public Location getPosition() {
+    public Position getPosition() {
         return position;
     }
 
