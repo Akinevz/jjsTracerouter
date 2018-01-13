@@ -13,5 +13,12 @@
     "coordinates"
   ],
   "author": "Akinevz",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "p5": "^0.5.16",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "quick-server": "^0.5.1"
+  }
 }
