@@ -19,6 +19,8 @@
     "request": "^2.83.0"
   },
   "devDependencies": {
-    "quick-server": "^0.5.1"
+    "compression": "^1.7.1",
+    "connect": "^3.6.5",
+    "serve-static": "^1.13.1"
   }
 }
