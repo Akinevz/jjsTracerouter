@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class IP {
     
-    public final static Pattern IP_REGEX = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)");
+    public final static Pattern IP_REGEX = Pattern.compile("^(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)$");
     private char one;
     private char two;
     private char three;
