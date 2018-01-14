@@ -1,12 +1,32 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>
-			JJS Trace
-		</title>
-	</head>
-	<body>
-		<h2>
-			Hello world
-		</h2>
-	</body>
+
+<head>
+    <link rel="stylesheet" href="index.css">
+    <title>
+        JJS Trace
+    </title>
+
+    <!--    <meta name="viewport" content="height=device-height, initial-scale=1.0">-->
+
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <div id='container'>
+        <canvas id='canvas'>
+        </canvas>
+    </div>
+
+    <h1>
+        JJS GlobalTrace
+    </h1>
+
+    <form id='bottom'>
+        Enter URL or IP address to traceroute<br />
+        <input type="text" name="payload" value='url or ip' />
+        <input type="button" name="submit" value='Submit Query' />
+    </form>
+</body>
+
 </html>
