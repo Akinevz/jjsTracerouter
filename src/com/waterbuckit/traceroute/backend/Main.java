@@ -1,10 +1,5 @@
 package com.waterbuckit.traceroute.backend;
 
-import java.io.File;
-import java.util.Map;
-import java.util.stream.Collectors;
-import org.apache.commons.net.util.SubnetUtils;
-
 /**
  *
  * @author waterbucket
@@ -13,7 +8,8 @@ import org.apache.commons.net.util.SubnetUtils;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        WebServer server = new WebServer(8080);
+        WebServer server = new WebServer(8080, IP.getGeolocMap());
+//        System.out.println(IP.getGeo("8.8.8.8", IP.getGeolocMap()));
         server.start();
 //        System.out.println(IP.getGeo("8.8.8.8"));
 //        /*
