@@ -15,10 +15,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,8 +98,9 @@ class WorkerThread implements Runnable {
             String parsedIP = parseIP(sbRecevieved);
             System.out.println("PARSED: " + parsedIP);
             if (parsedIP != null) {
-                List<String> parsedTrRoutes = parseTraceRoute(traceRoute(parsedIP).split("\n"));
-                parsedTrRoutes.add(0, this.getExternalIP());
+                LinkedHashSet<String> parsedTrRoutes = new LinkedHashSet<>();
+                parsedTrRoutes.add(this.getExternalIP());
+                parsedTrRoutes.addAll(parseTraceRoute(traceRoute(parsedIP).split("\n")));
                 // no response was got
                 if (parsedTrRoutes.isEmpty()) {
                     output.write(("HTTP/1.1 500 Internal Server Error\nContent-Type: text/plain\n\nServer could not find a connection to target").getBytes());
