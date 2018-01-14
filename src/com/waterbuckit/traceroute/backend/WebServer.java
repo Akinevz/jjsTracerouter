@@ -123,7 +123,6 @@ class WorkerThread implements Runnable {
 //            output.write(("HTTP/1.1 200 Ok\nContent-Type: text/plain\n\n" + IP.getGeo("8.8.8.8", this.geolocs)).getBytes("UTF-8"));
             input.close();
             output.close();
-            System.out.println("AND I RETURN");
             Thread.currentThread().interrupt();
         } catch (IOException e) {
             e.printStackTrace();
