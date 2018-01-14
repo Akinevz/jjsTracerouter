@@ -103,7 +103,7 @@ class WorkerThread implements Runnable {
                 parsedTrRoutes.add(0, this.getExternalIP());
                 // no response was got
                 if (parsedTrRoutes.isEmpty()) {
-                    output.write(("HTTP/1.1 500 Internal Server Error\n\nServer could not find a connection to target").getBytes());
+                    output.write(("HTTP/1.1 500 Internal Server Error\nContent-Type: text/plain\n\nServer could not find a connection to target").getBytes());
                     output.close();
                     Thread.currentThread().interrupt();
                 }
@@ -115,10 +115,10 @@ class WorkerThread implements Runnable {
                     }
                     sb.append(gson.toJson(temp)).append("\n");
                 }
-                output.write(("HTTP/1.1 200 Ok\n\n" + sb.toString()).getBytes());
+                output.write(("HTTP/1.1 200 Ok\nContent-Type: text/plain\n\n" + sb.toString()).getBytes());
 //                String[] parsedTr = parseTraceRoute(traceRoute(parsedIP).split("\n"));
             } else {
-                output.write(("HTTP/1.1 500 Internal Server Error\n\nServer could not find a connection to target").getBytes());
+                output.write(("HTTP/1.1 500 Internal Server Error\nContent-Type: text/plain\n\nServer could not find a connection to target").getBytes());
             }
 //            output.write(("HTTP/1.1 200 Ok\nContent-Type: text/plain\n\n" + IP.getGeo("8.8.8.8", this.geolocs)).getBytes("UTF-8"));
             input.close();
