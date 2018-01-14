@@ -1,7 +1,6 @@
 const THREE = require('three');
 const OrbitControls = require('three-orbit-controls')(THREE);
 
-
 const textures = {
     earth: new THREE.TextureLoader().load('texture.png'),
     stars: new THREE.TextureLoader().load('starmap.png'),
@@ -9,16 +8,16 @@ const textures = {
 
 const materials = {
     normal: new THREE.MeshNormalMaterial({
-        flatShading:true,
-        side:THREE.DoubleSide
+        flatShading: true,
+        side: THREE.DoubleSide
     }),
     earth: new THREE.MeshBasicMaterial({
         map: textures.earth
     }),
     stars: new THREE.MeshBasicMaterial({
         map: textures.stars,
-        side:THREE.BackSide
-        
+        side: THREE.BackSide
+
     }),
 }
 
@@ -46,15 +45,6 @@ const meshes = [
     stars, earth
 ];
 
-const onWindowResize = function () {
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-}
-
 
 
 module.exports = function (targ) {
@@ -62,10 +52,19 @@ module.exports = function (targ) {
 
     /* set up scene */
     const scene = new THREE.Scene();
-    const controls = new OrbitControls(camera);
+    const controls = new OrbitControls(camera, targ);
     const renderer = new THREE.WebGLRenderer({
         canvas: targ
     });
+
+    const onWindowResize = function () {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+    }
 
     const animate = function () {
         renderer.render(scene, camera);
@@ -79,7 +78,7 @@ module.exports = function (targ) {
     earth.geometry.computeBoundingSphere();
 
     controls.enablePan = false;
-    controls.maxDistance = sizes.stars*0.90;
+    controls.maxDistance = sizes.stars * 0.90;
     controls.minDistance = earth.geometry.boundingSphere.radius * 1.2;
     controls.target = new THREE.Vector3();
 
@@ -87,12 +86,18 @@ module.exports = function (targ) {
     camera.lookAt(controls.center);
 
     stars.position = camera.position;
-    
+
     for (mesh of meshes) {
         scene.add(mesh);
     }
 
     animate();
 
-    return renderer.domElement;
+    return {
+        canvas: renderer.domElement,
+        focus: function (geopos) {
+            const {lon,lat} = geopos;
+            console.log("rotating to",lon,lat);
+        }
+    };
 }

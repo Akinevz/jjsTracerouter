@@ -1,5 +1,10 @@
 const ready = require('document-ready');
+const ip = require('ip');
+
 const graphics = require('./graphics');
+
+
+
 
 const sleep = (ms) => function (obj) {
     return new Promise((wake, die) => {
@@ -36,16 +41,39 @@ form.then(f => f.payload)
     .then(f => f.onfocus = formInputBegin)
     .then(() => console.log("assigned onfocus"));
 
-canvas
-    .then(() => document.addEventListener("fullscreenchange", maximizeCanvas, false))
+const gfx = canvas.then(() => document.addEventListener("fullscreenchange", maximizeCanvas, false))
     .then(() => window.addEventListener("resize", maximizeCanvas, false))
     .then(maximizeCanvas)
-    .then(()=>canvas)
+    .then(() => canvas)
     .then(graphics);
 
-form.then(f => f.submit)
-    .then(f => f.onclick = function () {
-        console.log("Submit!");
+const getLatLon = function(ip){
+    console.log("getting lat long for ",ip);
+    return {
+        lat:222,
+        lon:111
+    };
+};
+
+const doProcessInput = function (istr) {
+    console.log("click!");
+    const pIp = Promise
+        .resolve(istr)
+        .then(function (s) {
+            if(!ip.isV4Format(s)) throw 'Not an IP address'
+            return ip.toBuffer(s);
+            
+        })
+        .then(ip.toString)
+        .then(getLatLon)
+        .then(p=>gfx.then(g=>g.focus(p)))
+        .catch(alert);
+
+}
+
+form.then(f => f.doneClick.onclick = f.onsubmit = function () {
+        doProcessInput(f.payload.value);
+        return false;
     })
     .then(() => console.log("assigned submit"));
 
