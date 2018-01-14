@@ -15,12 +15,16 @@
   "author": "Akinevz",
   "license": "ISC",
   "dependencies": {
-    "p5": "^0.5.16",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "three": "^0.89.0",
+    "three-orbit-controls": "^82.1.0"
   },
   "devDependencies": {
+    "browserify-middleware": "^8.0.0",
     "compression": "^1.7.1",
     "connect": "^3.6.5",
-    "serve-static": "^1.13.1"
+    "document-ready": "^2.0.1",
+    "serve-static": "^1.13.1",
+    "watchify-middleware": "^1.6.0"
   }
 }
